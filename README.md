@@ -1,49 +1,31 @@
-# Smart Lead Qualification & CRM Setup
+# Autonomous WhatsApp Appointment Booking Agent
 
 ## Overview
-This system automatically handles new leads for the company the second they arrive. Instead of doing manual research, the system looks up the client's company, uses artificial intelligence to figure out how serious they are, and automatically sends them to the right place or replies for you.
+This system acts as a 24/7 virtual assistant on WhatsApp for clinics and service businesses. Instead of manual phone calls or delayed messaging, the agent chats naturally with patients, checks real-time availability, and books, reschedules, or cancels appointments automatically while keeping client data secure.
 
-# What Powers It
+## What Powers It
+* **Automation:** n8n (Self-hosted)
+* **Intelligence:** Anthropic Claude (Claude Haiku)
+* **Memory & State:** PostgreSQL Chat Memory
+* **Integrations:** WhatsApp Cloud API, OpenAI Whisper (for voice note transcription), and QClínicas Cloud API
 
-**Automation:** n8n
+## How It Works
 
-**Intelligence:** OpenAI (GPT-4o-mini)
+### 1. Ingestion & Voice Transcription
+* **Instant Capture:** Receives inbound customer messages via WhatsApp webhooks instantly and securely.
+* **Smart Media Handling:** Automatically detects whether the message is text or voice. If a client sends a voice note, it downloads the audio file and transcribes it into clean text using OpenAI Whisper.
 
-**Tools Used:** JavaScript, HubSpot CRM, and Gmail
+### 2. Contextual AI Agent & Memory
+* **Real-Time Context:** Injects current date and time references dynamically into the system prompt so the AI always knows what day "tomorrow" or "next Friday" is.
+* **Persistent Memory:** Uses PostgreSQL to remember conversation history, allowing for natural, multi-turn dialogue.
+* **Strict Guardrails:** Enforces clinic business hours, holiday closures, service pricing, and data privacy rules (never exposing other patients' data).
 
-# How It Works
-
-1. Receiving & Researching the Client
-
-**Instant Capture:**Grabs form entries straight from your website instantly and securely.
-
-***Company Check:** Looks at the email address. If it is a company email (not a personal Gmail or Yahoo account), it automatically visits their website to see what they do.
-
-**Content Cleanup:** Cleans up the website text so the AI can easily read it.
-
-2. AI Evaluation
-
-**Smart Scoring:** Sends the client's message and company details to the AI.
-
-**Clear Results:** The AI gives every lead a score from 0 to 100, detects their main pain points, and summarizes what they need.
-
-3. Automatic Sorting
-The system automatically routes the lead based on their score:
-
-🔥 **High Interest (Score 75+)**:
-
-Instantly saves or updates their profile in your HubSpot CRM.
-
-Sends an immediate alert to your inbox with a clean summary, their core problems, and recommended next steps.
-
-🌤️ **Medium Interest (Score 40–74)**:
-
-Automatically sends a polite email asking for a few more details about their project or current tools.
-
-❄️ **Low Interest / Not a Fit (Score under 40)**:
-
-Sends a professional, automated thank-you-and-rejection email so you don't waste time on dead ends.
+### 3. Automated Scheduling & Tools
+The AI uses secure API tools to interact directly with the scheduling software:
+* **📅 Check Availability:** Instantly queries the clinic's calendar to find open slots for specific dates and services.
+* **✨ Book Appointments:** Collects required client details (Name, DNI/NIE, Treatment, Date, and Time) and securely registers the appointment.
+* **❌ Cancel Bookings:** Handles cancellation requests safely by verifying appointment IDs before executing removal.
+* **💬 Automated Reply:** Formats and sends a friendly, concise confirmation or response back to the user on WhatsApp.
 
 ## Business Impact
-
-This cuts your response time from hours down to seconds. High-value clients get your attention immediately, while routine or unqualified inquiries are handled entirely on autopilot.
+This automation eliminates missed calls and reduces front-desk workload entirely. Patients can book appointments instantly at any hour of the day through WhatsApp, while complex calendar checks and data entry happen seamlessly on autopilot.
